@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace BusBoard.ConsoleApp
 {
-    class Bus
+    public class Bus
     {
         public string lineName;
         public string destinationName;
