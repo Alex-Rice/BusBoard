@@ -27,6 +27,13 @@ namespace BusBoard.Web.Controllers
             return View();
         }
 
+        public ActionResult BusTimes(PostcodeSelection selection)
+        {
+            var apiOutput = ApiClass.MakeApiCalls(selection.Postcode);
+            var info = new BusInfo(selection.Postcode, apiOutput);
+            return PartialView(info);
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Contact us!";

@@ -11,47 +11,49 @@
 @if (Model.ApiOutput.postCodeValid)
 {
     <h4>
-        You entered postcode: <b>@Model.PostCode</b>
+        You entered postcode: <b>@Model.PostCode.ToUpper()</b>
     </h4>
 
     <div class="page-columns">
         <div class="row">
-            @foreach (var stop in Model.ApiOutput.StopAndBusList)
-            {
-                <h3> @stop.StopName</h3>
+            <div id="updateDiv">
+                @foreach (var stop in Model.ApiOutput.StopAndBusList)
+                {
+                    <h3> @stop.StopName</h3>
 
-                <table class="timetable">
-                    <tr>
-                        <th width="100px">Bus Line</th>
-                        <th>Destination</th>
-                        <th class="rightAlign">Time to arrival</th>
-                    </tr>
-                    @foreach (var bus in stop.NextFive)
-                    {
+                    <table class="timetable">
                         <tr>
-                            <td width="50px">@bus.lineName</td>
-                            <td>@bus.destinationName</td>
-                            @{
-                                string arrivalText;
-                                var Time = bus.TimeToArrival();
-                                if (Time == 1)
-                                {
-                                    arrivalText = Time.ToString() + " min";
-                                }
-                                else if (Time == 0)
-                                {
-                                    arrivalText = "Due";
-                                }
-                                else
-                                {
-                                    arrivalText = Time.ToString()+" mins";
-                                }
-                            }
-                            <td align="right">@arrivalText</td>
+                            <th width="100px">Bus Line</th>
+                            <th>Destination</th>
+                            <th class="rightAlign">Time to arrival</th>
                         </tr>
-                    }
-                </table>
-            }
+                        @foreach (var bus in stop.NextFive)
+                        {
+                            <tr>
+                                <td width="50px">@bus.lineName</td>
+                                <td>@bus.destinationName</td>
+                                @{
+                                    string arrivalText;
+                                    var Time = bus.TimeToArrival();
+                                    if (Time == 1)
+                                    {
+                                        arrivalText = Time.ToString() + " min";
+                                    }
+                                    else if (Time == 0)
+                                    {
+                                        arrivalText = "Due";
+                                    }
+                                    else
+                                    {
+                                        arrivalText = Time.ToString() + " mins";
+                                    }
+                                }
+                                <td align="right">@arrivalText</td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
             <p class="BigSpace"></p>
         </div>
         <div class="picture">
@@ -63,6 +65,7 @@
         </div>
 
     </div>
+    <script>var javaPostCode = '@Model.PostCode.Replace(" ","+")';</script>
     <script src="~/Scripts/slideshow.js"></script>
 }
 else
