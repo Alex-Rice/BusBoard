@@ -1,37 +1,51 @@
 ﻿@model BusBoard.Web.ViewModels.BusInfo
 @{
-  ViewBag.Title = "Bus Information";
+    ViewBag.Title = "Bus Information";
+
+}
+<meta http-equiv="refresh" content="30"/>
+
+
+<h2 class="title">BusInfo</h2>
+
+@if (Model.ApiOutput.postCodeValid)
+{
+    <h4>
+        You entered postcode: <b>@Model.PostCode</b>
+    </h4>
+
+    <div class="page-columns">
+        <div class="row">
+            @foreach (var stop in Model.ApiOutput.StopAndBusList)
+            {
+                <h3> @stop.StopName</h3>
+
+                <table class="timetable">
+                    <tr>
+                        <th width="100px">Bus Line</th>
+                        <th>Destination</th>
+                        <th class="rightAlign">Time to arrival</th>
+                    </tr>
+                    @foreach (var bus in stop.NextFive)
+                    {
+                        <tr>
+                            <td width="50px">@bus.lineName</td>
+                            <td>@bus.destinationName</td>
+                            <td align="right">@bus.TimeToArrival() mins</td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+        <div class="picture">
+            <img src="Images/bus.jpg" alt="This is a bus"/>
+        </div>
+
+    </div>
+}
+else
+{
+    <p>Invalid Postcode</p>
 }
 
-<h2>BusInfo</h2>
 
-<div class="row">
-    <p>You entered postcode <b>@Model.PostCode</b></p>
-    @if (!Model.ApiOutput.postCodeValid)
-    {
-        <p>Invalid Postcode</p>
-    }
-    else
-    {
-        foreach (var stop in Model.ApiOutput.StopAndBusList)
-        {
-            <h3> @stop.StopName</h3>
-
-            <table>
-                <tr>
-                    <th>Bus Line</th>
-                    <th>Destination</th>
-                    <th>Time to arrival</th>
-                </tr>
-                @foreach (var bus in stop.NextFive)
-                {
-                    <tr>
-                        <td>@bus.lineName</td>
-                        <td>@bus.destinationName</td>
-                        <td>@bus.TimeToArrival() mins</td>
-                    </tr>
-                }
-            </table>
-        }
-    }
-</div>

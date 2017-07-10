@@ -22,3 +22,46 @@ select,
 textarea {
     max-width: 280px;
 }
+
+td,th {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+th {
+    border-bottom: 1px solid #000;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.timetable {
+    width: 100%;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+.page-columns {
+    display: flex;
+}
+
+.page-columns .picture {
+    flex: 0 1 50%;
+}
+
+.page-columns img {
+    width: 100%;
+}
+
+
+.page-columns .row {
+    flex: 1 0 50%;
+}
+
+.title {
+    margin-bottom: 30px;
+}
