@@ -3,7 +3,7 @@
     ViewBag.Title = "Bus Information";
 
 }
-<meta http-equiv="refresh" content="30"/>
+<!--<meta http-equiv="refresh" content="30"/>-->
 
 
 <h2 class="title">BusInfo</h2>
@@ -31,21 +31,48 @@
                         <tr>
                             <td width="50px">@bus.lineName</td>
                             <td>@bus.destinationName</td>
-                            <td align="right">@bus.TimeToArrival() mins</td>
+                            @{
+                                string arrivalText;
+                                var Time = bus.TimeToArrival();
+                                if (Time == 1)
+                                {
+                                    arrivalText = Time.ToString() + " min";
+                                }
+                                else if (Time == 0)
+                                {
+                                    arrivalText = "Due";
+                                }
+                                else
+                                {
+                                    arrivalText = Time.ToString()+" mins";
+                                }
+                            }
+                            <td align="right">@arrivalText</td>
                         </tr>
                     }
                 </table>
             }
+            <p class="BigSpace"></p>
         </div>
         <div class="picture">
-            <img src="Images/bus.jpg" alt="This is a bus"/>
+            <a id="imglink" href="https://en.wikipedia.org/wiki/Bus_bunching#/media/File:London_Bus_route_55_Buses,_Clapton_Pond.jpg" target="_blank">
+                <abbr id="imgTitle" title="55 Buses, Clapton Pond by oxyman. CC BY-SA 2.0">
+                    <img id="slideshow" src="Images/bus.jpg" alt="This is a bus"/>
+                </abbr>
+            </a>
         </div>
 
     </div>
+    <script src="~/Scripts/slideshow.js"></script>
 }
 else
 {
     <p>Invalid Postcode</p>
+    <a href="https://stockarch.com/images/business-and-industry/farming/stubble-agricultural-field-6782" target="_blank">
+        <abbr title="Stubble in an agricultural field-6782 by StockMedia CC BY 3.0">
+            <img src="Images/stubble_field.jpg" alt="Empty Field"/>
+        </abbr>
+    </a>
 }
 
 

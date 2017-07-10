@@ -163,6 +163,10 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Home\Images\bus.jpg" />
+    <Content Include="Home\Images\bus1.jpg" />
+    <Content Include="Home\Images\bus2.jpg" />
+    <Content Include="Home\Images\bus3.png" />
+    <Content Include="Home\Images\stubble_field.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -179,6 +183,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\slideshow.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
