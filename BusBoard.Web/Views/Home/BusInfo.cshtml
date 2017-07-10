@@ -6,5 +6,32 @@
 <h2>BusInfo</h2>
 
 <div class="row">
-    <p>You entered postcode @Model.PostCode</p>
+    <p>You entered postcode <b>@Model.PostCode</b></p>
+    @if (!Model.ApiOutput.postCodeValid)
+    {
+        <p>Invalid Postcode</p>
+    }
+    else
+    {
+        foreach (var stop in Model.ApiOutput.StopAndBusList)
+        {
+            <h3> @stop.StopName</h3>
+
+            <table>
+                <tr>
+                    <th>Bus Line</th>
+                    <th>Destination</th>
+                    <th>Time to arrival</th>
+                </tr>
+                @foreach (var bus in stop.NextFive)
+                {
+                    <tr>
+                        <td>@bus.lineName</td>
+                        <td>@bus.destinationName</td>
+                        <td>@bus.TimeToArrival() mins</td>
+                    </tr>
+                }
+            </table>
+        }
+    }
 </div>

@@ -11,15 +11,27 @@ namespace BusBoard.Api
 {
     public class ApiClass
     {
-        public static List<StopAndBus> MakeApiCalls(string input)
+        public static ApiReturn MakeApiCalls(string input)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var postCodeInfo = DownloadPostcode(input);
-            var longLat = LongLat.FromJson(postCodeInfo);
-            var busStopJson = DownloadBusStops(longLat);
-            var stopPoints = StopPoint.FromJson(busStopJson);
-            var firstTwoStopPoints = stopPoints.OrderBy(x => x.distance).Take(2).ToList();
-            return OutputAllBus(firstTwoStopPoints);
+            try
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                var postCodeInfo = DownloadPostcode(input);
+                var longLat = LongLat.FromJson(postCodeInfo);
+                var busStopJson = DownloadBusStops(longLat);
+                var stopPoints = StopPoint.FromJson(busStopJson);
+                var firstTwoStopPoints = stopPoints.OrderBy(x => x.distance).Take(2).ToList();
+                return new ApiReturn(OutputAllBus(firstTwoStopPoints));
+            }
+            catch (InvalidPostcodeException)
+            {
+                return new ApiReturn();
+            }
+            catch (Exception e)
+            {
+                return new ApiReturn(e);
+            }
+
         }
 
         
@@ -47,6 +59,10 @@ namespace BusBoard.Api
 
 
             var response = client.Execute(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new InvalidPostcodeException();
+            }
             return response.Content;
 
         }

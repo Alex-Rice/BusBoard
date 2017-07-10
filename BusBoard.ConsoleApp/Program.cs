@@ -11,7 +11,7 @@ namespace BusBoard.ConsoleApp
         {
             var input = GetInput();
             var output = ApiClass.MakeApiCalls(input);
-            PrintOutput(output);
+            PrintOutput(output.StopAndBusList);
         }
 
         private static string GetInput()
