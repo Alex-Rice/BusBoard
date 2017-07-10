@@ -14,9 +14,9 @@ namespace BusBoard.ConsoleApp
         public string destinationName;
         public DateTime expectedArrival;
 
-        public void Print()
+        public string Print()
         {
-            Console.WriteLine($"{lineName}\t{destinationName}\t{(expectedArrival - DateTime.UtcNow).Minutes}");
+            return $"{lineName}\t{destinationName}\t{(expectedArrival - DateTime.UtcNow).Minutes}";
         }
         public static List<Bus> FromJson(string inputJson)
         {

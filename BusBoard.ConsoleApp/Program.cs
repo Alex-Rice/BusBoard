@@ -15,14 +15,19 @@ namespace BusBoard.ConsoleApp
     {
         static void Main(string[] args)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var input = GetInput();
+            Console.WriteLine(MakeApiCalls(input));
+        }
+
+        private static string MakeApiCalls(string input)
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var postCodeInfo = DownloadPostcode(input);
             var longLat = LongLat.FromJson(postCodeInfo);
             var busStopJson = DownloadBusStops(longLat);
             var stopPoints = StopPoint.FromJson(busStopJson);
             var firstTwoStopPoints = stopPoints.OrderBy(x => x.distance).Take(2).ToList();
-            PrintAllBus(firstTwoStopPoints);
+            return PrintAllBus(firstTwoStopPoints);
         }
 
         private static string GetInput()
@@ -74,24 +79,23 @@ namespace BusBoard.ConsoleApp
 
         }
 
-        private static void PrintAllBus(List<StopPoint> stops)
+        private static string PrintAllBus(List<StopPoint> stops)
         {
-            foreach (var stopPoint in stops)
-            {
-                PrintBus(stopPoint);
-            }
+            return string.Join("\n", stops.Select(PrintBus));
         }
 
-        private static void PrintBus(StopPoint stop)
+        private static string PrintBus(StopPoint stop)
         {
-            Console.WriteLine(stop.commonName);
+            var retString = new StringBuilder();
+            retString.AppendLine(stop.commonName);
             var downloadedJson = DownloadFile(stop.id);
             var busList = Bus.FromJson(downloadedJson);
             var firstFiveBus = busList.OrderBy(x => x.expectedArrival).Take(5);
             foreach (var bus in firstFiveBus)
             {
-                bus.Print();
+                retString.AppendLine(bus.Print());
             }
+            return retString.ToString();
         }
     }
 }
