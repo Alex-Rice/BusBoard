@@ -1,23 +1,44 @@
 ﻿@model BusBoard.Web.ViewModels.BusInfo
 @{
     ViewBag.Title = "Bus Information";
-
 }
-<!--<meta http-equiv="refresh" content="30"/>-->
 
 
 <h2 class="title">BusInfo</h2>
 
-@if (Model.ApiOutput.postCodeValid)
-{
-    <h4>
-        You entered postcode: <b>@Model.PostCode.ToUpper()</b>
-    </h4>
+@section scripts {
+    <script>var javaPostCode = '@Model.PostCode.Replace(" ","+")';
+    console.log(javaPostCode);</script>
+    <script src="~/Scripts/slideshow.js"></script>
+}
+<div class="page-columns">
+    <div class="column-left">
+        @if (Model.ApiOutput.postCodeValid)
+        {
+            <h4>
+                You entered postcode: <b>@Model.PostCode.ToUpper()</b>
+            </h4>
+        }
+        else
+        {
+            <h4>Invalid Postcode</h4>
+        }
+    </div>
+    <div class="column-right">
+        <form id ="PostCodeForm">
+            <input id="Postcode" name="Postcode" type="text"/>
+            <input type="submit" value="Update Postcode">
+        </form>
+    </div>
+</div>
 
-    <div class="page-columns">
-        <div class="row">
-            <div id="updateDiv">
-                @foreach (var stop in Model.ApiOutput.StopAndBusList)
+
+<div class="page-columns">
+    <div class="column-left">
+        <div id="updateDiv">
+            @if (Model.ApiOutput.postCodeValid)
+            {
+                foreach (var stop in Model.ApiOutput.StopAndBusList)
                 {
                     <h3> @stop.StopName</h3>
 
@@ -53,29 +74,31 @@
                         }
                     </table>
                 }
-            </div>
-            <p class="BigSpace"></p>
-        </div>
-        <div class="picture">
-            <a id="imglink" href="https://en.wikipedia.org/wiki/Bus_bunching#/media/File:London_Bus_route_55_Buses,_Clapton_Pond.jpg" target="_blank">
-                <abbr id="imgTitle" title="55 Buses, Clapton Pond by oxyman. CC BY-SA 2.0">
-                    <img id="slideshow" src="Images/bus.jpg" alt="This is a bus"/>
-                </abbr>
-            </a>
-        </div>
 
+                <p class="BigSpace"></p>
+            }
+            else
+            {
+                <a href="https://stockarch.com/images/business-and-industry/farming/stubble-agricultural-field-6782" target="_blank">
+                    <abbr title="Stubble in an agricultural field-6782 by StockMedia CC BY 3.0">
+                        <img src="Images/stubble_field.jpg" alt="Empty Field"/>
+                    </abbr>
+                </a>
+            }
+        </div>
     </div>
-    <script>var javaPostCode = '@Model.PostCode.Replace(" ","+")';</script>
-    <script src="~/Scripts/slideshow.js"></script>
-}
-else
-{
-    <p>Invalid Postcode</p>
-    <a href="https://stockarch.com/images/business-and-industry/farming/stubble-agricultural-field-6782" target="_blank">
-        <abbr title="Stubble in an agricultural field-6782 by StockMedia CC BY 3.0">
-            <img src="Images/stubble_field.jpg" alt="Empty Field"/>
-        </abbr>
-    </a>
-}
+    <div class="column-right">
+        <a id="imglink" href="https://en.wikipedia.org/wiki/Bus_bunching#/media/File:London_Bus_route_55_Buses,_Clapton_Pond.jpg" target="_blank">
+            <abbr id="imgTitle" title="55 Buses, Clapton Pond by oxyman. CC BY-SA 2.0">
+                <img id="slideshow" src="Images/bus.jpg" alt="This is a bus"/>
+            </abbr>
+        </a>
+    </div>
+
+</div>
+    
+
+   
+
 
 

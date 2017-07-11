@@ -15,6 +15,10 @@ namespace BusBoard.Web.Controllers
         [HttpGet]
         public ActionResult BusInfo(PostcodeSelection selection)
         {
+            if (selection.Postcode == null)
+            {
+                selection.Postcode = "";
+            }
             var apiOutput = ApiClass.MakeApiCalls(selection.Postcode);
             var info = new BusInfo(selection.Postcode, apiOutput);
             return View(info);

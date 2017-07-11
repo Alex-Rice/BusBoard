@@ -1,38 +1,51 @@
-﻿<div id="newData">
-    @foreach (var stop in Model.ApiOutput.StopAndBusList)
+﻿<div class="newDiv">
+    @if (Model.ApiOutput.postCodeValid)
     {
-        <h3> @stop.StopName</h3>
+        foreach (var stop in Model.ApiOutput.StopAndBusList)
+        {
+            <h3> @stop.StopName</h3>
 
-        <table class="timetable">
-            <tr>
-                <th width="100px">Bus Line</th>
-                <th>Destination</th>
-                <th class="rightAlign">Time to arrival</th>
-            </tr>
-            @foreach (var bus in stop.NextFive)
-            {
+            <table class="timetable">
                 <tr>
-                    <td width="50px">@bus.lineName</td>
-                    <td>@bus.destinationName</td>
-                    @{
-                        string arrivalText;
-                        var Time = bus.TimeToArrival();
-                        if (Time == 1)
-                        {
-                            arrivalText = Time.ToString() + " min";
-                        }
-                        else if (Time == 0)
-                        {
-                            arrivalText = "Due";
-                        }
-                        else
-                        {
-                            arrivalText = Time.ToString() + " mins";
-                        }
-                    }
-                    <td align="right">@arrivalText</td>
+                    <th width="100px">Bus Line</th>
+                    <th>Destination</th>
+                    <th class="rightAlign">Time to arrival</th>
                 </tr>
-            }
-        </table>
+                @foreach (var bus in stop.NextFive)
+                {
+                    <tr>
+                        <td width="50px">@bus.lineName</td>
+                        <td>@bus.destinationName</td>
+                        @{
+                            string arrivalText;
+                            var Time = bus.TimeToArrival();
+                            if (Time == 1)
+                            {
+                                arrivalText = Time.ToString() + " min";
+                            }
+                            else if (Time == 0)
+                            {
+                                arrivalText = "Due";
+                            }
+                            else
+                            {
+                                arrivalText = Time.ToString() + " mins";
+                            }
+                        }
+                        <td align="right">@arrivalText</td>
+                    </tr>
+                }
+            </table>
+        }
+
+        <p class="BigSpace"></p>
+    }
+    else
+    {
+        <a href="https://stockarch.com/images/business-and-industry/farming/stubble-agricultural-field-6782" target="_blank">
+            <abbr title="Stubble in an agricultural field-6782 by StockMedia CC BY 3.0">
+                <img src="Images/stubble_field.jpg" alt="Empty Field"/>
+            </abbr>
+        </a>
     }
 </div>

@@ -1,28 +1,22 @@
-﻿num = 1;
-image = document.getElementById("slideshow");
-imglink = document.getElementById("imglink");
-imgTitle = document.getElementById("imgTitle");
+﻿$(document).ready(function() {
+    num = 1;
+    image = document.getElementById("slideshow");
+    imglink = document.getElementById("imglink");
+    imgTitle = document.getElementById("imgTitle");
 
-setInterval(function () {
-    if (num == 4) {
-        num = 0;
-        $.ajax("/Home/BusTimes?Postcode=" + javaPostCode,
-            {
-                success: function(data) {
-                    $('#updateDiv').html($(data));
-                },
-                error: function() {
-                    console.log("error");
-                }
-            });
-    }
+    setInterval(updatePage, 5000);
 
-    console.log(num);
-    switch (num) {
+    function updatePage() {
+        if (num == 4) {
+            num = 0;
+            reloadTimes();
+        }
+        switch (num) {
         case 0:
             source = "Images/bus.jpg";
             imageTitle = "55 Buses, Clapton Pond by oxyman. CC BY-SA 2.0";
-            imagelink = "https://en.wikipedia.org/wiki/Bus_bunching#/media/File:London_Bus_route_55_Buses,_Clapton_Pond.jpg";
+            imagelink =
+                "https://en.wikipedia.org/wiki/Bus_bunching#/media/File:London_Bus_route_55_Buses,_Clapton_Pond.jpg";
             break;
         case 1:
             source = "Images/bus1.jpg";
@@ -48,6 +42,27 @@ setInterval(function () {
 
         num += 1;
 
+    }
 
-    },
-    5000);
+    $("#PostCodeForm").submit(function(event) {
+        event.preventDefault();
+        newPostCode = $('input:first').val();
+        if (newPostCode) {
+            javaPostCode = newPostCode.replace(" ", "+");
+            reloadTimes();
+        }
+    });
+
+    function reloadTimes() {
+        console.log(javaPostCode);
+        $.ajax("/Home/BusTimes?Postcode=" + javaPostCode,
+            {
+                success: function (data) {
+                    $('#updateDiv').html($(data));
+                },
+                error: function () {
+                    console.log("error");
+                }
+            });
+    }
+});
