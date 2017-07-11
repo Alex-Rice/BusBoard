@@ -69,3 +69,7 @@ th {
 .BigSpace {
     margin-bottom: 100px;
 }
+
+#expandable {
+    height: 500px;
+}
